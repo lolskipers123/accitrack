@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="AcciTrack">
+    <meta name="theme-color" content="#0b2c66">
+    <meta name="format-detection" content="telephone=no">
+    <title>AcciTrack • Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+<body>
+<style>
+       * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #e2e8f0;
+            height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 20px;
+            position: relative;
+            background: linear-gradient(rgba(10,14,23,0.88), rgba(10,14,23,0.92)),
+                        url('static/images/title-hero-1.jpg') center/cover no-repeat fixed;
+        }
+</style>
+<div class="card">
+    <div class="logo"><img src="static/images/Logo.png" alt="PNP Logo"></div>
+    <h1>AcciTrack</h1>
+    <p class="sub">Philippine National Police • AcciTrack System</p>
+
+    <!-- Officer Form -->
+    <div id="officer-form">
+        <form id="officerLogin" action="/log-in">
+            <!-- Dynamic credentials warning display container -->
+            <div id="loginWarning" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1.5px solid rgba(239, 68, 68, 0.4); color: #f87171; padding: 14px 20px; border-radius: 16px; margin-bottom: 24px; text-align: center; font-size: 14px; font-weight: 600; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.15);"></div>
+
+            <div class="in"><i class="fa-solid fa-user-tie"></i><input type="text" id="username" placeholder="Officer Username" name="username" required></div>
+            <div class="in"><i class="fa-solid fa-id-badge"></i><input type="text" id="badgeNumber" placeholder="Badge Number" name="badgeNumber" required></div>
+            <div class="in"><i class="fa-solid fa-lock"></i><input type="password" id="officerPin" placeholder="Password" name="officerPin" required title="Password must have special characters, numbers, it's supposed to be long, and have some uppercase."></div>
+            <div class="forgot-link" onclick="openForgotModal()">Forgot Password?</div>
+            <button type="submit" class="btn">Log In</button>
+        </form>
+    </div>
+
+    <!-- Account Recovery Modal Container -->
+    <div id="forgotModal" class="modal-overlay">
+        <div class="modal" style="background: #1e293b; color: white; max-width: 460px; width: 90%;">
+            <div class="modal-header" style="border-bottom: 1px solid #334155;">
+                <h2>Account Recovery</h2>
+                <button class="close-modal" onclick="closeForgotModal()">×</button>
+            </div>
+
+            <!-- Recovery Method Tab Selector -->
+            <div style="display: flex; border-bottom: 1px solid #334155; background: #0f172a;">
+                <button type="button" id="tabBackup" onclick="switchRecoveryTab('backup')" style="all: unset; flex: 1; padding: 14px; text-align: center; color: #3b82f6; font-weight: 700; cursor: pointer; border-bottom: 2px solid #3b82f6; font-family: inherit;">Backup Code</button>
+                <button type="button" id="tabEmail" onclick="switchRecoveryTab('email')" style="all: unset; flex: 1; padding: 14px; text-align: center; color: #94a3b8; font-weight: 700; cursor: pointer; font-family: inherit;">Gmail 2FA</button>
+            </div>
+
+            <div class="modal-body" id="forgotContent" style="padding: 24px;">
+                <!-- METHOD A: BACKUP CODE RECOVERY -->
+                <div id="recoveryBackupView">
+                    <p style="color:#94a3b8; font-size:14px; margin-bottom: 20px; text-align: left;"><i class="fa-solid fa-shield-halved"></i> Please enter your badge number and one of your pre-generated 8-digit emergency backup codes (e.g. 4829-1746) to set a new password.</p>
+                    <form id="backupCodeForm">
+                        <div class="form-group" style="margin-bottom: 16px; text-align: left;">
+                            <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #cbd5e1;">Badge Number</label>
+                            <input type="text" id="backupBadge" placeholder="Enter your badge number" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: white;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 16px; text-align: left;">
+                            <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #cbd5e1;">Emergency Backup Code</label>
+                            <input type="text" id="backupCodeInput" placeholder="e.g. 4829-1746" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: white; letter-spacing: 1px; text-align: center;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 16px; text-align: left;">
+                            <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #cbd5e1;">New Password</label>
+                            <input type="password" id="backupNewPin" placeholder="Enter new password" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: white;" title="Password must have special characters, numbers, it's supposed to be long, and have some uppercase.">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 24px; text-align: left;">
+                            <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #cbd5e1;">Confirm New Password</label>
+                            <input type="password" id="backupConfirmPin" placeholder="Confirm new password" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: white;">
+                        </div>
+                        <button type="submit" class="btn">Reset Password & Recover Account</button>
+                    </form>
+                </div>
+
+                <!-- METHOD B: GMAIL 2FA RECOVERY -->
+                <div id="recoveryEmailView" style="display: none;">
+                    <!-- Step 1: Submit email to request OTP -->
+                    <div id="emailStep1">
+                        <p style="color:#94a3b8; font-size:14px; margin-bottom: 20px; text-align: left;"><i class="fa-solid fa-envelope"></i> Enter your registered email address and badge number to receive a 6-digit 2FA reset code.</p>
+                        <form id="sendEmailForm">
+                            <div class="form-group" style="margin-bottom: 16px; text-align: left;">
+                                <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #cbd5e1;">Badge Number</label>
+                                <input type="text" id="emailBadge" placeholder="Enter your badge number" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: white;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 24px; text-align: left;">
+                                <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #cbd5e1;">Email Address</label>
+                                <input type="email" id="emailInput" placeholder="your.email@gmail.com" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: white;">
+                            </div>
+                            <button type="submit" class="btn">Send Verification Code</button>
+                        </form>
+                    </div>
+
+                    <!-- Step 2: Input OTP & enter new password details -->
+                    <div id="emailStep2" style="display: none;">
+                        <p style="color:#94a3b8; font-size:14px; margin-bottom: 20px; text-align: left;"><i class="fa-solid fa-shield-halved"></i> Enter the 6-digit code sent to your email and specify your new secure password.</p>
+                        <form id="verifyEmailForm">
+                            <div class="form-group" style="margin-bottom: 16px; text-align: left;">
+                                <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #cbd5e1;">6-Digit Verification Code</label>
+                                <input type="text" id="emailCode" maxlength="6" placeholder="e.g. 123456" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: white; letter-spacing: 4px; text-align: center; font-weight: bold; font-size: 18px;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 16px; text-align: left;">
+                                <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #cbd5e1;">New Password</label>
+                                <input type="password" id="emailNewPin" placeholder="Enter new password" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: white;" title="Password must have special characters, numbers, it's supposed to be long, and have some uppercase.">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 24px; text-align: left;">
+                                <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #cbd5e1;">Confirm New Password</label>
+                                <input type="password" id="emailConfirmPin" placeholder="Confirm new password" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: white;">
+                            </div>
+                            <button type="submit" class="btn">Verify & Reset Password</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login 2FA Verification Modal Container -->
+    <div id="login2faModal" class="modal-overlay">
+        <div class="modal" style="background: #1e293b; color: white; max-width: 420px; width: 90%;">
+            <div class="modal-header" style="border-bottom: 1px solid #334155;">
+                <h2>Two-Factor Verification</h2>
+                <button class="close-modal" onclick="closeLogin2faModal()">×</button>
+            </div>
+            <div class="modal-body" style="padding: 24px;">
+                <p style="color:#94a3b8; font-size:14px; margin-bottom: 20px; text-align: left;">
+                    <i class="fa-solid fa-envelope-circle-check"></i> A 6-digit verification code has been sent to your registered email address. Please enter the code below to conclude your login process.
+                </p>
+                <form id="login2faForm">
+                    <div class="form-group" style="margin-bottom: 24px; text-align: left;">
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #cbd5e1;">6-Digit Verification Code</label>
+                        <input type="text" id="login2faCode" maxlength="6" placeholder="e.g. 123456" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: white; letter-spacing: 4px; text-align: center; font-weight: bold; font-size: 18px;">
+                    </div>
+                    <button type="submit" class="btn">Verify & Access System</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">Philippine National Police<br>© 2025 AcciTrack</div>
+</div>
+
+<script src="{{ url_for('static', filename='js/login.js') }}"></script>
+<script>
+    // Trap backward browser navigation when visiting the login interface
+    (function () {
+        window.history.pushState(null, null, window.location.href);
+        window.onpopstate = function () {
+            window.history.pushState(null, null, window.location.href);
+        };
+    })();
+    // iOS Safari + Android Chrome viewport height fix
+    (function() {
+        function setVH() {
+            const h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+            document.documentElement.style.setProperty('--vh', h * 0.01 + 'px');
+        }
+        setVH();
+        window.addEventListener('resize', setVH);
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', setVH);
+        }
+    })();
+</script>
+</body>
+</html>
