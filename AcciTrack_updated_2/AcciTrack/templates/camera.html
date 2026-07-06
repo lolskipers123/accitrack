@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AcciTrack</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0b0c10;
+      --panel: #14161f;
+      --panel-2: #191c28;
+      --border: #262a3d;
+      --accent: #f97316;
+      --accent-2: #fb923c;
+      --text: #e8eaf0;
+      --text-dim: #7d8399;
+      --danger: #ef4444;
+      --safe: #22c55e;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 15% 0%, rgba(249, 115, 22, 0.08), transparent 35%),
+        radial-gradient(circle at 85% 100%, rgba(249, 115, 22, 0.06), transparent 40%),
+        var(--bg);
+      color: var(--text);
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+    }
+
+    header {
+      background: rgba(20, 22, 31, 0.85);
+      backdrop-filter: blur(10px);
+      padding: 16px 28px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo-mark {
+      width: 30px; height: 30px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), #c2410c);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 800;
+      box-shadow: 0 0 18px rgba(249, 115, 22, 0.35);
+    }
+
+    header h1 {
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      flex: 1;
+    }
+
+    .back-btn {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-dim);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+
+    .back-btn:hover { background: var(--panel-2); color: var(--text); border-color: #3a3f5c; }
+
+    .live-pill {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-dim);
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 999px;
+    }
+
+    .live-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--safe);
+      box-shadow: 0 0 8px rgba(34, 197, 94, 0.7);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+
+    .main {
+      display: grid;
+      grid-template-columns: 1fr 1fr 320px;
+      gap: 22px;
+      padding: 24px 28px;
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    .video-panel {
+      position: relative;
+      background: #000;
+      border-radius: 16px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      border: 1px solid var(--border);
+      transition: border-color 0.3s, box-shadow 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .video-panel.alert {
+      border-color: var(--danger);
+      box-shadow: 0 0 0 1px var(--danger), 0 0 30px rgba(239, 68, 68, 0.45);
+    }
+
+    .video-panel img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    .feed-placeholder {
+      color: #454a63;
+      font-size: 13px;
+      text-align: center;
+      padding: 24px;
+      line-height: 1.6;
+    }
+
+    .feed-placeholder svg { opacity: 0.4; margin-bottom: 10px; }
+
+    .cam-label {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      background: rgba(11, 12, 16, 0.75);
+      padding: 4px 10px;
+      border-radius: 6px;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .status-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--safe);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      backdrop-filter: blur(4px);
+      transition: all 0.3s;
+    }
+
+    .status-badge.danger {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      border-color: rgba(239, 68, 68, 0.5);
+      animation: flashbadge 0.5s infinite alternate;
+    }
+
+    @keyframes flashbadge {
+      from { opacity: 1; }
+      to   { opacity: 0.6; }
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--panel);
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid var(--border);
+    }
+
+    .card h2 {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--text-dim);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card h2:not(:first-child) { margin-top: 20px; }
+
+    .hint {
+      font-size: 11px;
+      color: #565c78;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    .ip-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .ip-row input {
+      flex: 1;
+      width: 0;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      color: var(--text);
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .ip-row input::placeholder { color: #4a5070; }
+    .ip-row input:focus { border-color: var(--accent); }
+
+    .ip-row button {
+      background: linear-gradient(135deg, var(--accent), #c2410c);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: filter 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .ip-row button:hover { filter: brightness(1.1); }
+    .ip-row button:active { transform: scale(0.97); }
+
+    .conn-status {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .conn-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #4a5070;
+      flex-shrink: 0;
+    }
+
+    .conn-dot.ok { background: var(--safe); box-shadow: 0 0 6px rgba(34,197,94,0.7); }
+    .conn-dot.err { background: var(--danger); box-shadow: 0 0 6px rgba(239,68,68,0.7); }
+    .conn-dot.pending { background: var(--accent); box-shadow: 0 0 6px rgba(249,115,22,0.7); animation: pulse 1s infinite; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .stat {
+      background: var(--bg);
+      border-radius: 10px;
+      padding: 14px 12px;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+
+    .stat .num { font-size: 26px; font-weight: 800; color: var(--accent-2); }
+    .stat .lbl { font-size: 10.5px; color: var(--text-dim); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .log-list {
+      list-style: none;
+      max-height: 260px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .log-list::-webkit-scrollbar { width: 6px; }
+    .log-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    .log-list li {
+      background: rgba(239, 68, 68, 0.07);
+      border-left: 3px solid var(--danger);
+      border-radius: 0 8px 8px 0;
+      padding: 8px 10px;
+      font-size: 12px;
+      color: #fca5a5;
+      font-family: 'SF Mono', Consolas, monospace;
+    }
+
+    .log-empty {
+      font-size: 12px;
+      color: #454a63;
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .main { grid-template-columns: 1fr 1fr; }
+      .sidebar { grid-column: 1 / -1; }
+    }
+
+    @media (max-width: 600px) {
+      .main { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="{{ back_url }}" class="back-btn">&#8592; Dashboard</a>
+  <div class="logo-mark">A</div>
+  <h1>AcciTrack</h1>
+  <div class="live-pill"><span class="live-dot"></span> Monitoring</div>
+</header>
+
+<div class="main">
+  <!-- Camera 0 -->
+  <div class="video-panel" id="video-panel-0">
+    <img id="feed-img-0" src="" alt="Live feed — camera 0">
+    <div class="feed-placeholder" id="feed-placeholder-0">Waiting for video stream…</div>
+    <div class="status-badge" id="status-badge-0">&#10003; No Crash</div>
+    <div class="cam-label">Front Camera</div>
+  </div>
+
+  <!-- Camera 1 -->
+  <div class="video-panel" id="video-panel-1">
+    <img id="feed-img-1" src="" alt="Live feed — camera 1">
+    <div class="feed-placeholder" id="feed-placeholder-1">Waiting for video stream…</div>
+    <div class="status-badge" id="status-badge-1">&#10003; No Crash</div>
+    <div class="cam-label">Back Camera</div>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="card">
+      <h2>Connection</h2>
+      <div class="conn-status"><span class="conn-dot" id="conn-dot"></span><span id="conn-status">Not connected</span></div>
+
+      <h2>Session Stats</h2>
+      <div class="stats">
+        <div class="stat">
+          <div class="num" id="total-count">0</div>
+          <div class="lbl">Detections</div>
+        </div>
+        <div class="stat">
+          <div class="num" id="uptime">0s</div>
+          <div class="lbl">Uptime</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Crash Log</h2>
+      <ul class="log-list" id="log-list">
+        <li class="log-empty" id="log-empty">No crashes detected yet</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── Raspberry Pi camera source, via Cloudflare Tunnel ──
+  const PI_BASE_URL = 'https://cam.accitrack.xyz';
+
+  let totalDetections = 0;
+  let sessionStart    = Date.now();
+  let lastLog         = [];
+  let piBase          = PI_BASE_URL.replace(/\/+$/, '');
+  let pollTimer       = null;
+
+  function setConnDot(state) {
+    // state: 'pending' | 'ok' | 'err' | ''
+    const dot = document.getElementById('conn-dot');
+    dot.className = 'conn-dot' + (state ? ' ' + state : '');
+  }
+
+  function connectFeed() {
+    if (!piBase) return;
+    setConnDot('pending');
+
+    // Connect both feeds
+    [0, 1].forEach(n => {
+      const img = document.getElementById('feed-img-' + n);
+      const ph  = document.getElementById('feed-placeholder-' + n);
+
+      img.src           = piBase + '/video_feed/' + n;
+      img.style.display = 'block';
+      ph.style.display  = 'none';
+
+      img.onerror = () => {
+        setConnDot('err');
+        document.getElementById('conn-status').textContent =
+          'Could not reach ' + piBase + ' (cam ' + n + ')';
+      };
+    });
+
+    document.getElementById('conn-status').textContent = 'Connecting to ' + piBase + '…';
+
+    // Confirm connected once cam0 loads
+    document.getElementById('feed-img-0').onload = () => {
+      setConnDot('ok');
+      document.getElementById('conn-status').textContent = 'Connected — ' + piBase;
+    };
+
+    if (pollTimer) clearInterval(pollTimer);
+    pollTimer = setInterval(poll, 1000);
+    poll();
+  }
+
+  connectFeed();
+
+  async function poll() {
+    if (!piBase) return;
+    try {
+      const res  = await fetch(piBase + '/status');
+      const data = await res.json();
+
+      // Apply crash state to both panels
+      [0, 1].forEach(n => {
+        const badge = document.getElementById('status-badge-' + n);
+        const panel = document.getElementById('video-panel-' + n);
+
+        if (data.crash_detected) {
+          badge.textContent = '!! CRASH DETECTED !!';
+          badge.className   = 'status-badge danger';
+          panel.className   = 'video-panel alert';
+        } else {
+          badge.textContent = '✓ No Crash';
+          badge.className   = 'status-badge';
+          panel.className   = 'video-panel';
+        }
+      });
+
+      const log = data.crash_log || [];
+      if (log.length !== lastLog.length) {
+        totalDetections = log.length;
+        document.getElementById('total-count').textContent = totalDetections;
+
+        const ul    = document.getElementById('log-list');
+        const empty = document.getElementById('log-empty');
+        if (empty) empty.remove();
+
+        log.slice(lastLog.length).forEach(ts => {
+          const li = document.createElement('li');
+          li.textContent = '🚨 ' + ts;
+          ul.insertBefore(li, ul.firstChild);
+        });
+        lastLog = log;
+      }
+    } catch (e) {
+      console.warn('Poll error:', e);
+    }
+  }
+
+  function updateUptime() {
+    const secs  = Math.floor((Date.now() - sessionStart) / 1000);
+    const mins  = Math.floor(secs / 60);
+    const hours = Math.floor(mins / 60);
+    let label;
+    if (hours > 0)     label = hours + 'h ' + (mins % 60) + 'm';
+    else if (mins > 0) label = mins + 'm ' + (secs % 60) + 's';
+    else               label = secs + 's';
+    document.getElementById('uptime').textContent = label;
+  }
+
+  setInterval(updateUptime, 1000);
+</script>
+
+</body>
+</html>
