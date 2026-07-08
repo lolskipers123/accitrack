@@ -1,0 +1,907 @@
+   * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #e2e8f0;
+            height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 20px;
+            position: relative;
+            background: linear-gradient(rgba(10,14,23,0.88), rgba(10,14,23,0.92)),
+                        url('assets/images/title-hero-1.jpg') center/cover no-repeat fixed;
+        }
+        .clock { position: absolute; top: 20px; left: 30px; background: rgba(34,197,94,0.2); color: #22c55e; padding: 10px 24px; border-radius: 40px; font-size: 16px; font-weight: 700; border: 1px solid rgba(34,197,94,0.3); display: flex; align-items: center; gap: 10px; backdrop-filter: blur(8px); }
+        .pulse { width: 10px; height: 10px; background: #22c55e; border-radius: 50%; animation: p 2s infinite; }
+        .card { background: rgba(20,28,47,0.94); backdrop-filter: blur(20px); border-radius: 32px; width: 100%; max-width: 560px; padding: 50px 60px; text-align: center; box-shadow: 0 25px 70px rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.08); }
+        .logo { width: 140px; height: 140px; border-radius: 50%; overflow: hidden; margin: 0 auto 30px; border: 6px solid rgba(59,130,246,0.3); background: white; padding: 8px; }
+        .logo img { width: 100%; height: 100%; object-fit: contain; }
+        h1 { font-size: 44px; font-weight: 900; background: linear-gradient(90deg, #60a5fa, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; }
+        .sub { color: #94a3b8; font-size: 17px; margin-bottom: 40px; }
+        .roles { display: flex; gap: 20px; margin-bottom: 35px; justify-content: center; }
+        .role { flex: 1; padding: 20px; border-radius: 20px; background: rgba(255,255,255,0.04); cursor: pointer; transition: all 0.4s ease; border: 2px solid transparent; }
+        .role:hover { transform: translateY(-6px); }
+        .role.active { border-color: #3b82f6; background: rgba(59,130,246,0.2); }
+        .role img { width: 80px; height: 80px; border-radius: 16px; object-fit: cover; margin-bottom: 12px; }
+        .role h3 { font-size: 19px; margin-bottom: 4px; }
+        .role p { font-size: 13px; color: #94a3b8; }
+        .in { position: relative; margin-bottom: 20px; }
+        .in i { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 18px; }
+        .in input { width: 100%; padding: 16px 20px 16px 56px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14); border-radius: 16px; color: white; font-size: 16px; }
+        .in input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 4px rgba(59,130,246,0.3); }
+        .btn { width: 100%; padding: 16px; background: linear-gradient(90deg, #3b82f6, #8b5cf6); color: white; border: none; border-radius: 16px; font-size: 17px; font-weight: 700; cursor: pointer; transition: all 0.4s ease; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(59,130,246,0.5); }
+        .signup-link { margin-top: 25px; font-size: 14.5px; color: #94a3b8; }
+        .signup-link a { color: #60a5fa; font-weight: 600; text-decoration: none; }
+        .signup-link a:hover { text-decoration: underline; }
+        .footer { margin-top: 40px; color: #94a3b8; font-size: 13px; }
+        @keyframes p { 0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,0.7)} 70%{box-shadow:0 0 0 12px rgba(34,197,94,0)} }
+
+.auth-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    font-family: 'Inter', sans-serif;
+}
+
+.auth-card {
+    background: rgba(20, 30, 50, 0.9);
+    backdrop-filter: blur(20px);
+    border-radius: 32px;
+    padding: 50px 40px;
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.auth-card.admin {
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.logo img { width: 90px; margin-bottom: 20px; }
+
+h1 {
+    font-size: 38px;
+    font-weight: 900;
+    background: linear-gradient(90deg, #60a5fa, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle { color: #94a3b8; margin: 10px 0 40px; font-size: 16px; }
+
+.input-group {
+    position: relative;
+    margin-bottom: 24px;
+    text-align: left;
+}
+
+.input-group i {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 18px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 18px 18px 18px 54px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    color: white;
+    font-size: 16px;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59,130,246,0.3);
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.btn-primary.admin {
+    background: linear-gradient(90deg, #ef4444, #dc2626);
+}
+
+.switch, .admin-link { margin-top: 20px; color: #94a3b8; font-size: 14px; }
+.switch a, .admin-link a { color: #60a5fa; text-decoration: none; font-weight: 600; }
+
+/* Main Card */
+    .card {
+        background: rgba(20,28,47,0.94);
+        backdrop-filter: blur(20px);
+        border-radius: 32px;
+        width: 100%;
+        max-width: 580px;
+        padding: 50px 60px;
+        text-align: center;
+        box-shadow: 0 25px 70px rgba(0,0,0,0.8);
+        border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* Logo */
+    .logo {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 0 auto 30px;
+        border: 6px solid rgba(59,130,246,0.3);
+        background: white;
+        padding: 8px;
+    }
+
+    .logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    /* Title & Subtitle */
+    h1 {
+        font-size: 44px;
+        font-weight: 900;
+        background: linear-gradient(90deg, #60a5fa, #a78bfa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 6px;
+    }
+
+    .sub {
+        color: #94a3b8;
+        font-size: 17px;
+        margin-bottom: 40px;
+    }
+
+    /* Role Selection Buttons */
+    .roles {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 35px;
+        justify-content: center;
+    }
+
+    .role {
+        flex: 1;
+        padding: 20px;
+        border-radius: 20px;
+        background: rgba(255,255,255,0.04);
+        cursor: pointer;
+        transition: all 0.4s ease;
+        border: 2px solid transparent;
+    }
+
+    .role:hover {
+        transform: translateY(-6px);
+    }
+
+    .role.active {
+        border-color: #3b82f6;
+        background: rgba(59,130,246,0.2);
+    }
+
+    .role img {
+        width: 80px;
+        height: 80px;
+        border-radius: 16px;
+        object-fit: cover;
+        margin-bottom: 12px;
+    }
+
+    .role h3 {
+        font-size: 19px;
+        margin-bottom: 4px;
+    }
+
+    /* Input Fields */
+    .in {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    .in i {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        font-size: 18px;
+    }
+
+    .in input {
+        width: 100%;
+        padding: 16px 20px 16px 56px;
+        background: rgba(255,255,255,0.07);
+        border: 1px solid rgba(255,255,255,0.14);
+        border-radius: 16px;
+        color: white;
+        font-size: 16px;
+    }
+
+    .in input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 4px rgba(59,130,246,0.3);
+    }
+
+    /* Submit Button */
+    .btn {
+        width: 100%;
+        padding: 16px;
+        background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        color: white;
+        border: none;
+        border-radius: 16px;
+        font-size: 17px;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 15px;
+        transition: all 0.4s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(59,130,246,0.5);
+    }
+
+    /* Back Link */
+    .back {
+        margin-top: 25px;
+        font-size: 14.5px;
+        color: #94a3b8;
+    }
+
+    .back a {
+        color: #60a5fa;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .back a:hover {
+        text-decoration: underline;
+    }
+
+    .roles .role {
+    transition: all 0.3s ease;
+}
+
+.roles .role.active {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(59,130,246,0.4);
+}
+
+/* FORGOT PASSWORD MODAL */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.75);
+        backdrop-filter: blur(8px);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-overlay.active {
+        display: flex;
+    }
+
+    .modal {
+        background: #1e293b;
+        width: 90%;
+        max-width: 420px;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+        animation: modalPop 0.4s ease;
+    }
+
+    @keyframes modalPop {
+        from { transform: scale(0.85); opacity: 0; }
+        to   { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-header {
+        background: #0f172a;
+        padding: 20px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .modal-header h2 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .close-modal {
+        background: none;
+        border: none;
+        color: #94a3b8;
+        font-size: 28px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .close-modal:hover {
+        color: white;
+        transform: rotate(90deg);
+    }
+
+    .modal-body {
+        padding: 24px;
+    }
+
+    .modal-body input {
+        width: 100%;
+        padding: 14px 16px;
+        margin: 12px 0;
+        border: 2px solid #334155;
+        border-radius: 12px;
+        background: #1e293b;
+        color: white;
+        font-size: 15px;
+    }
+
+    .modal-body input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 4px rgba(59,130,246,0.2);
+    }
+
+    .modal-body button {
+        width: 100%;
+        padding: 14px;
+        margin-top: 16px;
+        background: #3b82f6;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 15px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .modal-body button:hover {
+        background: #2563eb;
+        transform: translateY(-2px);
+    }
+
+    .modal-success {
+        text-align: center;
+        padding: 40px 20px;
+        color: #86efac;
+        font-size: 16px;
+    }
+
+    .forgot-link {
+        color: #60a5fa;
+        text-align: right;
+        font-size: 14px;
+        margin-top: 8px;
+        cursor: pointer;
+    }
+
+    .forgot-link:hover {
+        color: #93c5fd;
+        text-decoration: underline;
+    }
+   * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #e2e8f0;
+            height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 20px;
+            position: relative;
+            background: linear-gradient(rgba(10,14,23,0.88), rgba(10,14,23,0.92)),
+                        url('assets/images/title-hero-1.jpg') center/cover no-repeat fixed;
+        }
+        .clock { position: absolute; top: 20px; left: 30px; background: rgba(34,197,94,0.2); color: #22c55e; padding: 10px 24px; border-radius: 40px; font-size: 16px; font-weight: 700; border: 1px solid rgba(34,197,94,0.3); display: flex; align-items: center; gap: 10px; backdrop-filter: blur(8px); }
+        .pulse { width: 10px; height: 10px; background: #22c55e; border-radius: 50%; animation: p 2s infinite; }
+        .card { background: rgba(20,28,47,0.94); backdrop-filter: blur(20px); border-radius: 32px; width: 100%; max-width: 560px; padding: 50px 60px; text-align: center; box-shadow: 0 25px 70px rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.08); }
+        .logo { width: 140px; height: 140px; border-radius: 50%; overflow: hidden; margin: 0 auto 30px; border: 6px solid rgba(59,130,246,0.3); background: white; padding: 8px; }
+        .logo img { width: 100%; height: 100%; object-fit: contain; }
+        h1 { font-size: 44px; font-weight: 900; background: linear-gradient(90deg, #60a5fa, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; }
+        .sub { color: #94a3b8; font-size: 17px; margin-bottom: 40px; }
+        .roles { display: flex; gap: 20px; margin-bottom: 35px; justify-content: center; }
+        .role { flex: 1; padding: 20px; border-radius: 20px; background: rgba(255,255,255,0.04); cursor: pointer; transition: all 0.4s ease; border: 2px solid transparent; }
+        .role:hover { transform: translateY(-6px); }
+        .role.active { border-color: #3b82f6; background: rgba(59,130,246,0.2); }
+        .role img { width: 80px; height: 80px; border-radius: 16px; object-fit: cover; margin-bottom: 12px; }
+        .role h3 { font-size: 19px; margin-bottom: 4px; }
+        .role p { font-size: 13px; color: #94a3b8; }
+        .in { position: relative; margin-bottom: 20px; }
+        .in i { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 18px; }
+        .in input { width: 100%; padding: 16px 20px 16px 56px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14); border-radius: 16px; color: white; font-size: 16px; }
+        .in input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 4px rgba(59,130,246,0.3); }
+        .btn { width: 100%; padding: 16px; background: linear-gradient(90deg, #3b82f6, #8b5cf6); color: white; border: none; border-radius: 16px; font-size: 17px; font-weight: 700; cursor: pointer; transition: all 0.4s ease; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(59,130,246,0.5); }
+        .signup-link { margin-top: 25px; font-size: 14.5px; color: #94a3b8; }
+        .signup-link a { color: #60a5fa; font-weight: 600; text-decoration: none; }
+        .signup-link a:hover { text-decoration: underline; }
+        .footer { margin-top: 40px; color: #94a3b8; font-size: 13px; }
+        @keyframes p { 0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,0.7)} 70%{box-shadow:0 0 0 12px rgba(34,197,94,0)} }
+
+.auth-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    font-family: 'Inter', sans-serif;
+}
+
+.auth-card {
+    background: rgba(20, 30, 50, 0.9);
+    backdrop-filter: blur(20px);
+    border-radius: 32px;
+    padding: 50px 40px;
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.auth-card.admin {
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.logo img { width: 90px; margin-bottom: 20px; }
+
+h1 {
+    font-size: 38px;
+    font-weight: 900;
+    background: linear-gradient(90deg, #60a5fa, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle { color: #94a3b8; margin: 10px 0 40px; font-size: 16px; }
+
+.input-group {
+    position: relative;
+    margin-bottom: 24px;
+    text-align: left;
+}
+
+.input-group i {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 18px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 18px 18px 18px 54px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    color: white;
+    font-size: 16px;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59,130,246,0.3);
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.btn-primary.admin {
+    background: linear-gradient(90deg, #ef4444, #dc2626);
+}
+
+.switch, .admin-link { margin-top: 20px; color: #94a3b8; font-size: 14px; }
+.switch a, .admin-link a { color: #60a5fa; text-decoration: none; font-weight: 600; }
+
+/* Main Card */
+    .card {
+        background: rgba(20,28,47,0.94);
+        backdrop-filter: blur(20px);
+        border-radius: 32px;
+        width: 100%;
+        max-width: 580px;
+        padding: 50px 60px;
+        text-align: center;
+        box-shadow: 0 25px 70px rgba(0,0,0,0.8);
+        border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* Logo */
+    .logo {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 0 auto 30px;
+        border: 6px solid rgba(59,130,246,0.3);
+        background: white;
+        padding: 8px;
+    }
+
+    .logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    /* Title & Subtitle */
+    h1 {
+        font-size: 44px;
+        font-weight: 900;
+        background: linear-gradient(90deg, #60a5fa, #a78bfa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 6px;
+    }
+
+    .sub {
+        color: #94a3b8;
+        font-size: 17px;
+        margin-bottom: 40px;
+    }
+
+    /* Role Selection Buttons */
+    .roles {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 35px;
+        justify-content: center;
+    }
+
+    .role {
+        flex: 1;
+        padding: 20px;
+        border-radius: 20px;
+        background: rgba(255,255,255,0.04);
+        cursor: pointer;
+        transition: all 0.4s ease;
+        border: 2px solid transparent;
+    }
+
+    .role:hover {
+        transform: translateY(-6px);
+    }
+
+    .role.active {
+        border-color: #3b82f6;
+        background: rgba(59,130,246,0.2);
+    }
+
+    .role img {
+        width: 80px;
+        height: 80px;
+        border-radius: 16px;
+        object-fit: cover;
+        margin-bottom: 12px;
+    }
+
+    .role h3 {
+        font-size: 19px;
+        margin-bottom: 4px;
+    }
+
+    /* Input Fields */
+    .in {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    .in i {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        font-size: 18px;
+    }
+
+    .in input {
+        width: 100%;
+        padding: 16px 20px 16px 56px;
+        background: rgba(255,255,255,0.07);
+        border: 1px solid rgba(255,255,255,0.14);
+        border-radius: 16px;
+        color: white;
+        font-size: 16px;
+    }
+
+    .in input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 4px rgba(59,130,246,0.3);
+    }
+
+    /* Submit Button */
+    .btn {
+        width: 100%;
+        padding: 16px;
+        background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        color: white;
+        border: none;
+        border-radius: 16px;
+        font-size: 17px;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 15px;
+        transition: all 0.4s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(59,130,246,0.5);
+    }
+
+    /* Back Link */
+    .back {
+        margin-top: 25px;
+        font-size: 14.5px;
+        color: #94a3b8;
+    }
+
+    .back a {
+        color: #60a5fa;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .back a:hover {
+        text-decoration: underline;
+    }
+
+    .roles .role {
+    transition: all 0.3s ease;
+}
+
+.roles .role.active {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(59,130,246,0.4);
+}
+/* ============================================================
+   RESPONSIVE DESIGN — ACCITRACK LOGIN
+   ============================================================ */
+
+@media (max-width: 640px) {
+    .card {
+        padding: 36px 24px !important;
+        border-radius: 24px !important;
+        margin: 12px;
+        width: calc(100% - 24px) !important;
+    }
+    .logo { width: 100px !important; height: 100px !important; margin-bottom: 20px !important; }
+    h1 { font-size: 34px !important; }
+    .sub { font-size: 14px !important; margin-bottom: 28px !important; }
+    .roles { flex-direction: column; gap: 12px; }
+    .role { padding: 16px; }
+    .role img { width: 60px !important; height: 60px !important; }
+    .role h3 { font-size: 16px !important; }
+    .in input { font-size: 15px !important; padding: 14px 14px 14px 50px !important; }
+    .btn { font-size: 15px !important; padding: 14px !important; border-radius: 14px !important; }
+    .forgot-link { font-size: 13px; }
+
+    /* Clock badge */
+    .clock { top: 10px; left: 10px; padding: 8px 16px; font-size: 13px; }
+}
+
+@media (max-width: 480px) {
+    body { padding: 10px !important; min-height: 100dvh; }
+    .card { padding: 28px 18px !important; border-radius: 20px !important; }
+    h1 { font-size: 28px !important; }
+    .logo { width: 80px !important; height: 80px !important; }
+
+    /* Modal full-screen on tiny screens */
+    .modal-overlay .modal {
+        width: 96vw !important;
+        max-width: 96vw !important;
+        border-radius: 16px !important;
+        max-height: 90dvh;
+        overflow-y: auto;
+    }
+    .modal-header { padding: 16px 18px !important; }
+    .modal-header h2 { font-size: 17px !important; }
+    .modal-body { padding: 18px !important; }
+    .modal-body input { font-size: 14px !important; padding: 10px 12px !important; }
+
+    /* OTP input */
+    #login2faCode, #emailCode { font-size: 20px !important; letter-spacing: 6px !important; }
+}
+
+@media (max-width: 380px) {
+    .card { padding: 22px 14px !important; }
+    h1 { font-size: 26px !important; }
+    .roles { gap: 8px; }
+    .role img { width: 50px !important; height: 50px !important; }
+}
+
+/* Ensure full-height on iOS Safari */
+@supports (-webkit-touch-callout: none) {
+    body { min-height: -webkit-fill-available; }
+    .card { max-height: calc(var(--vh, 1vh) * 95); overflow-y: auto; }
+}
+
+/* ============================================================
+   ACCITRACK LOGIN — FULL MOBILE RESPONSIVE OVERHAUL
+   Android & iOS (Safari) accurate fixes
+   ============================================================ */
+
+:root {
+  --safe-top:    env(safe-area-inset-top,    0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+html { height: -webkit-fill-available; }
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  min-height: 100dvh;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* Fix: background-attachment:fixed breaks on iOS */
+  background-attachment: scroll;
+}
+
+/* Touch targets */
+.btn, .btn-primary, .role, .forgot-link, .switch a, .back a {
+  min-height: 44px;
+  touch-action: manipulation;
+}
+
+/* ============================================================
+   ≤ 640px
+   ============================================================ */
+@media (max-width: 640px) {
+  body {
+    padding: max(16px, var(--safe-top)) 14px max(16px, var(--safe-bottom)) 14px;
+    align-items: flex-start;
+    overflow-y: auto;
+  }
+
+  .card {
+    padding: 32px 22px !important;
+    border-radius: 24px !important;
+    margin: 0 auto;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .clock {
+    top: max(10px, var(--safe-top));
+    left: 14px;
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  .logo { width: 100px !important; height: 100px !important; margin-bottom: 20px !important; }
+  h1 { font-size: 32px !important; }
+  .sub { font-size: 14px !important; margin-bottom: 26px !important; }
+
+  /* Roles: side by side still if space, else stack */
+  .roles { gap: 12px; }
+  .role { padding: 16px 12px; }
+  .role img { width: 64px !important; height: 64px !important; }
+  .role h3 { font-size: 15px !important; }
+  .role p { font-size: 12px; }
+
+  /* Input */
+  .in input,
+  .input-group input {
+    font-size: 16px !important; /* prevents iOS zoom on focus */
+    padding: 14px 14px 14px 50px !important;
+  }
+
+  .btn, .btn-primary { font-size: 16px !important; padding: 15px !important; }
+  .forgot-link { font-size: 13px; }
+  .signup-link, .switch, .back { font-size: 13px; }
+}
+
+/* ============================================================
+   ≤ 480px
+   ============================================================ */
+@media (max-width: 480px) {
+  body { padding: max(12px, var(--safe-top)) 10px max(12px, var(--safe-bottom)) 10px; }
+
+  .card {
+    padding: 26px 16px !important;
+    border-radius: 20px !important;
+  }
+
+  h1 { font-size: 26px !important; }
+  .logo { width: 80px !important; height: 80px !important; }
+
+  .roles { flex-direction: column; gap: 10px; }
+  .role { padding: 14px 10px; }
+  .role img { width: 52px !important; height: 52px !important; }
+
+  .modal-overlay .modal,
+  .modal-overlay > .modal {
+    width: 97vw !important;
+    max-width: 97vw !important;
+    border-radius: 16px !important;
+    max-height: 92dvh;
+    overflow-y: auto;
+  }
+  .modal-header { padding: 14px 16px !important; }
+  .modal-header h2 { font-size: 16px !important; }
+  .modal-body { padding: 16px !important; }
+  .modal-body input { font-size: 16px !important; }
+}
+
+/* ============================================================
+   ≤ 380px
+   ============================================================ */
+@media (max-width: 380px) {
+  .card { padding: 20px 12px !important; }
+  h1 { font-size: 22px !important; }
+  .logo { width: 70px !important; height: 70px !important; }
+  .roles { gap: 8px; }
+  .role img { width: 46px !important; height: 46px !important; }
+  .role h3 { font-size: 14px !important; }
+}
+
+/* ============================================================
+   iOS Safari fixes
+   ============================================================ */
+@supports (-webkit-touch-callout: none) {
+  body {
+    min-height: -webkit-fill-available;
+    /* Fix: fixed background on iOS */
+    background-attachment: scroll;
+  }
+  .card {
+    max-height: calc(var(--vh, 1dvh) * 95);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* Prevent input zoom: font-size must be ≥ 16px */
+  input, select, textarea { font-size: 16px !important; }
+  button, a { touch-action: manipulation; }
+}
+
+/* ============================================================
+   Touch hover fix
+   ============================================================ */
+@media (hover: none) and (pointer: coarse) {
+  .role:hover { transform: none; }
+  .btn:hover, .btn-primary:hover { transform: none; box-shadow: none; }
+  .role:active { transform: scale(0.98); }
+  .btn:active, .btn-primary:active { opacity: 0.88; }
+}
