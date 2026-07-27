@@ -14,5 +14,4 @@ services:
       - key: PYTHON_VERSION
         value: 3.11.0
       - key: PI_API_KEY
-        sync: false  # set this manually in the Render dashboard; must match
-                     # UPLOAD_API_KEY in detect_and_stream.py on the Pi
+        sync: false  
