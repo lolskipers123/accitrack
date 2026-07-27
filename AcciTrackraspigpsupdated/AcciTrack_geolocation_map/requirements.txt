@@ -1,0 +1,9 @@
+flask==3.1.2
+werkzeug==3.1.8
+PythonSimpleFunctions==1.0.10
+flask-cloudflared==0.0.15
+requests==2.34.2
+openpyxl==3.1.5
+tqdm==4.68.3
+unidecode==1.4.0
+gunicorn==21.2.0

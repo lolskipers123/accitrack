@@ -1,0 +1,10 @@
+# Install on the Raspberry Pi 5 (Picamera2 comes from apt, not pip):
+#   sudo apt install -y python3-picamera2 python3-opencv
+#   pip install -r pi_requirements.txt --break-system-packages
+flask==3.1.2
+requests==2.34.2
+
+# Optional, only needed for live GPS coordinates on crash reports (see
+# detect_and_stream.py docstring "Optional: live GPS on crash reports").
+# Install via apt, NOT pip (it needs to match the system gpsd version):
+#   sudo apt install -y gpsd gpsd-clients python3-gps
