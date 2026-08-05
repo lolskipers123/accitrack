@@ -1899,7 +1899,7 @@ def pi_crash_report():
 
         values = [
             {"report_caseNum": case_num},
-            {"report_submitting_officer": "AcciTrack-Pi (Automated)"},
+            {"report_submitting_officer": "Officer Manhattan"},
             {"report_submitting_datetime": submitting_datetime},
             {"report_location": location},
             {"report_type": "Vehicle Collision (Auto-Detected)"},
