@@ -1893,13 +1893,14 @@ def pi_crash_report():
         location = request.form.get("location", "Unknown (Pi camera)")
         location_lat = request.form.get("lat", "")
         location_lng = request.form.get("lng", "")
+        submitting_officer = request.form.get("submitting_officer", "AcciTrack-Pi (Automated)")
         now = datetime.datetime.now()
         case_num = "PI-" + now.strftime("%Y%m%d%H%M%S")
         submitting_datetime = now.strftime("%b %d %Y • %I:%M %p")
 
         values = [
             {"report_caseNum": case_num},
-            {"report_submitting_officer": "Officer Manhattan"},
+            {"report_submitting_officer": submitting_officer},
             {"report_submitting_datetime": submitting_datetime},
             {"report_location": location},
             {"report_type": "Vehicle Collision (Auto-Detected)"},
